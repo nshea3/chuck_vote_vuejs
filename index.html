@@ -1,0 +1,28 @@
+<div id="app">
+    <ul>
+        <li v-for="joke in jokes">
+            {{ joke.joke }} {{ joke.votes }}
+            <button @click = "joke.votes += 1"> Vote </button>
+        </li>
+    </ul>
+</div>
+
+<script src="https://unpkg.com/vue"></script>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            jokes: []
+        },
+        created () {
+            fetch('http://api.icndb.com/jokes/random/3')
+            .then(response => response.json())
+            .then(json => {
+                for(let val of json.value){
+                    val.votes = 0
+                }
+                this.jokes = json.value
+            })
+        }
+    })
+</script>
